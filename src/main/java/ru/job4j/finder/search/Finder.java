@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.finder.search;
 
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
@@ -22,7 +22,7 @@ public class Finder extends SimpleFileVisitor<Path> {
     
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        if (condition.test(file.getFileName())) {
+        if (condition.test(file)) {
             foundFiles.add(file);
         }
         return FileVisitResult.CONTINUE;

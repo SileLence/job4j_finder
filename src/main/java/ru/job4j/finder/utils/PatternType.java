@@ -1,20 +1,20 @@
-package ru.job4j;
+package ru.job4j.finder.utils;
 
-public enum SearchType {
+public enum PatternType {
     
     NAME,
     MASK,
     REGEX;
     
-    boolean isName() {
+    public boolean isName() {
         return NAME.equals(this);
     }
     
-    boolean isMask() {
+    public boolean isMask() {
         return MASK.equals(this);
     }
     
-    boolean isRegex() {
+    public boolean isRegex() {
         return REGEX.equals(this);
     }
 }
