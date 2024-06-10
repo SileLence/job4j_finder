@@ -1,6 +1,6 @@
 package ru.job4j.finder.search;
 
-import ru.job4j.finder.utils.ErrorMessage;
+import ru.job4j.finder.utils.Message;
 import ru.job4j.finder.utils.PatternType;
 
 public class SearchParameter {
@@ -36,7 +36,7 @@ public class SearchParameter {
             case "mask" -> this.patternType = PatternType.MASK;
             case "regex" -> this.patternType = PatternType.REGEX;
             default -> throw new IllegalArgumentException(
-                ErrorMessage.ERR_2.getFilledMessage(patternType)
+                Message.MSG_2.getFilledMessage(patternType)
             );
         }
     }
