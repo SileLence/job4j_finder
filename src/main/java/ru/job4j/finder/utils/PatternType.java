@@ -2,9 +2,19 @@ package ru.job4j.finder.utils;
 
 public enum PatternType {
     
-    NAME,
-    MASK,
-    REGEX;
+    NAME("name"),
+    MASK("mask"),
+    REGEX("regex");
+    
+    final String value;
+    
+    PatternType(String value) {
+        this.value = value;
+    }
+    
+    public String getValue() {
+        return value;
+    }
     
     public boolean isName() {
         return NAME.equals(this);

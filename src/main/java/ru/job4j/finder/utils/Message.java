@@ -11,8 +11,10 @@ public enum Message {
     MSG_7("Parameter [%s] has empty key."),
     MSG_8("Parameter [%s] has empty value."),
     MSG_9("Unsupported key [%s] of [%s] value. Possible values: '-d', '-n', '-t', '-o'."),
-    
-    MSG_15("Input regex is not valid: ");
+    MSG_10("Key [-d] has contain incorrect directory path: [%s]."),
+    MSG_11("Output file of [-o] key is not exists: [%s]."),
+    MSG_12("Input regex is not valid: %s"),
+    MSG_13("Input parameters should contain only four mandatory keys: '-d', '-n', '-t', '-o'.");
     
     private final String message;
     

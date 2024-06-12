@@ -1,6 +1,5 @@
 package ru.job4j.finder.search;
 
-import ru.job4j.finder.utils.Message;
 import ru.job4j.finder.utils.PatternType;
 
 public class SearchParameter {
@@ -35,9 +34,6 @@ public class SearchParameter {
             case "name" -> this.patternType = PatternType.NAME;
             case "mask" -> this.patternType = PatternType.MASK;
             case "regex" -> this.patternType = PatternType.REGEX;
-            default -> throw new IllegalArgumentException(
-                Message.MSG_2.getFilledMessage(patternType)
-            );
         }
     }
     
@@ -47,5 +43,15 @@ public class SearchParameter {
     
     public void setOutputFileName(String outputFileName) {
         this.outputFileName = outputFileName;
+    }
+    
+    @Override
+    public String toString() {
+        return "SearchParameter{"
+            + "startFolder='" + startFolder + '\''
+            + ", searchPattern='" + searchPattern + '\''
+            + ", patternType=" + patternType
+            + ", outputFileName='" + outputFileName + '\''
+            + '}';
     }
 }

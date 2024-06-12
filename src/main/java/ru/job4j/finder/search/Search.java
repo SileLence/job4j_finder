@@ -1,5 +1,7 @@
 package ru.job4j.finder.search;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.finder.utils.Constants;
 import ru.job4j.finder.utils.Message;
 import ru.job4j.finder.utils.PatternType;
@@ -12,15 +14,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class Search {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(Search.class);
     private final Validator validator = new Validator();
     private SearchParameter searchParameters;
     
     public void execute(String[] args) throws IOException {
+        LOGGER.info("Start search with args: {}", Arrays.toString(args));
         validator.validateArgs(args);
         prepareParameters(args);
         Finder finder = new Finder(prepareCondition());
@@ -47,14 +52,15 @@ public class Search {
     private void prepareParameters(String[] args) {
         SearchParameter searchParameter = new SearchParameter();
         for (String arg : args) {
-            String[] param = arg.split("=", Constants.TWO);
+            String[] param = arg.split(Constants.EQUAL_SYMBOL, Constants.TWO);
             switch (param[Constants.ZERO]) {
-                case Constants.STARTING_FOLDER_KEY -> searchParameter.setStartFolder(param[Constants.ONE]);
+                case Constants.START_FOLDER_KEY -> searchParameter.setStartFolder(param[Constants.ONE]);
                 case Constants.SEARCH_PATTERN_KEY -> searchParameter.setSearchPattern(param[Constants.ONE]);
                 case Constants.PATTERN_TYPE_KEY -> searchParameter.setPatternType(param[Constants.ONE]);
                 case Constants.OUTPUT_FILE_KEY -> searchParameter.setOutputFileName(param[Constants.ONE]);
             }
         }
+        LOGGER.debug("Prepared parameters: {}", searchParameter);
         this.searchParameters = searchParameter;
     }
     
@@ -81,6 +87,7 @@ public class Search {
     }
     
     private void writeResult(List<Path> foundFiles) throws IOException {
+        LOGGER.trace("Writing found files: {}", foundFiles);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(searchParameters.getOutputFileName()))) {
             if (foundFiles.isEmpty()) {
                 writer.write(Message.MSG_3.getFilledMessage());
@@ -91,10 +98,10 @@ public class Search {
                 );
             }
             for (Path file : foundFiles) {
-                writer.write(file.toFile().getName());
-                System.out.println(file.toFile().getName()); //todo: remove the line before commit
+                writer.write(file.toFile().getPath() + System.lineSeparator());
             }
         } catch (IOException exception) {
+            LOGGER.error(Message.MSG_5.getFilledMessage(exception.getMessage()));
             throw new IOException(Message.MSG_5.getFilledMessage(exception.getMessage()), exception);
         }
     }
